@@ -15,9 +15,18 @@ import java.util.Map;
  */
 public class TrafficSystem {
  
-
+    private TrafficLight traficLight;
+    private TrafficSensor trafficSensor;
     public TrafficSystem() {
+        traficLight = new TrafficLight();
+        trafficSensor = new TrafficSensor();
+
+        Thread t1 = new Thread(traficLight);
+        t1.start();
         
+
+        Thread t2 = new Thread(trafficSensor);
+        t2.start();
     }
     
     //LaneLights.put("Main lane", LightState.red);
