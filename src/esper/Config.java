@@ -8,6 +8,7 @@ package esper;
 import com.espertech.esper.client.EPServiceProvider;
 import com.espertech.esper.client.EPServiceProviderManager;
 import com.espertech.esper.client.EPStatement;
+import events.TrafficLightReading;
 import events.TrafficSensorReading;
 
 
@@ -21,7 +22,7 @@ public class Config {
 
     public static void registerEvents() {
         engine.getEPAdministrator().getConfiguration().addEventType(TrafficSensorReading.class);
-        //engine.getEPAdministrator().getConfiguration().addEventType(TempSensorReading.class);
+        engine.getEPAdministrator().getConfiguration().addEventType(TrafficLightReading.class);
         System.out.println("Events Successfully Registered.");
     }
 
