@@ -10,6 +10,7 @@ import events.TrafficLightReading.LightState;
 import events.TrafficSensorReading.laneState;
 import model.TrafficLight;
 import model.TrafficSensor;
+import model.TrafficSystem;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
@@ -29,6 +30,8 @@ public class Main {
 
         // Register events
         Config.registerEvents();
+        
+        final TrafficSystem trafficSystem = new TrafficSystem();
 
         // Create Kettle
         //final Kettle kettle = new Kettle();
@@ -50,13 +53,7 @@ public class Main {
                     }
                 });
 
-//        TrafficSensor s1 = new TrafficSensor();
-//        Thread t1 = new Thread(s1);
-//        t1.start();
-        
-        TrafficLight s2 = new TrafficLight();
-        Thread t2 = new Thread(s2);
-        t2.start();
+
 
     }
 
