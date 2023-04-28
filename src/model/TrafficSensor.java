@@ -14,13 +14,12 @@ import java.util.logging.Logger;
  *
  * @author Jaden
  */
-
 public class TrafficSensor implements Runnable {
-    private laneState mainLane;  
+
+    private laneState mainLane;
     private laneState sideLane;
-    
-    
-     public laneState getMainLaneState() {
+
+    public laneState getMainLaneState() {
         return mainLane;
     }
 
@@ -40,20 +39,19 @@ public class TrafficSensor implements Runnable {
         this.mainLane = laneState.Busy;
         this.sideLane = laneState.Empty;
     }
-    
+
     @Override
     public void run() {
-    while (true) {
-            
+        while (true) {
+
             try {
                 java.lang.Thread.sleep(1000);
             } catch (InterruptedException ex) {
                 Logger.getLogger(TrafficSensor.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
-            Config.sendEvent(new TrafficSensorReading(mainLane,sideLane));
+
+            Config.sendEvent(new TrafficSensorReading(mainLane, sideLane));
         }
     }
 
-    
 }

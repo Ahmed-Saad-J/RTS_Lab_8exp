@@ -32,7 +32,7 @@ public class Main {
 
         // Register events
         Config.registerEvents();
-        
+
         final TrafficSystem trafficSystem = new TrafficSystem();
 
         // Create Kettle
@@ -53,10 +53,9 @@ public class Main {
                         System.out.println("side lane is: " + sideLaneState);
 
                     }
-                    
-                    
+
                 });
-        
+
         Config.createStatement("select carPlate, now from ViolationReading")
                 .setSubscriber(new Object() {
                     public void update(String carPlate, LocalDateTime now) {
@@ -66,8 +65,6 @@ public class Main {
 
                     }
                 });
-
-
 
     }
 

@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import events.TrafficSensorReading.laneState;
 
 /**
  *
@@ -19,33 +20,74 @@ import java.util.logging.Logger;
  */
 public class TrafficLight implements Runnable {
 
-    private LightState mainLaneState;
-    private LightState sideLaneState;
+    private TrafficSystem system;
+    private LightState mainLightState;
+    private LightState sideLightState;
 
-    public TrafficLight() {
-        this.mainLaneState = LightState.green;
-        this.sideLaneState = LightState.red;
+    public TrafficLight(TrafficSystem system) {
+        this.mainLightState = LightState.green;
+        this.sideLightState = LightState.red;
+        this.system = system;
     }
 
     public void NormalChange() {
-        if (mainLaneState == LightState.red) {
-            sideLaneState = LightState.yellow;
+         laneState mainLane = system.getTrafficSensor().getMainLaneState();
+        laneState sideLane = system.getTrafficSensor().getSideLaneState();
+        //check of either the lanes are empty not both
+        if ((mainLane == laneState.Empty || sideLane == laneState.Empty) && mainLane != sideLane) {
+            
+            QuickChange(mainLane, sideLane);
+
+        }
+        if (mainLightState == LightState.red) {
+
+            sideLightState = LightState.yellow;
             try {
-                java.lang.Thread.sleep(3000);
+                java.lang.Thread.sleep(5000);
             } catch (InterruptedException ex) {
                 Logger.getLogger(TrafficLight.class.getName()).log(Level.SEVERE, null, ex);
             }
-            mainLaneState = LightState.green;
-            sideLaneState = LightState.red;
+            mainLightState = LightState.green;
+            sideLightState = LightState.red;
         } else {
-            mainLaneState = LightState.yellow;
-            try {
-                java.lang.Thread.sleep(3000);
+            mainLightState = LightState.yellow;
+             try {
+                java.lang.Thread.sleep(5000);
             } catch (InterruptedException ex) {
                 Logger.getLogger(TrafficLight.class.getName()).log(Level.SEVERE, null, ex);
             }
-            sideLaneState = LightState.green;
-            mainLaneState = LightState.red;
+            sideLightState = LightState.green;
+            mainLightState = LightState.red;
+
+        }
+    }
+
+    public void QuickChange(laneState mainLane, laneState sideLane) {
+
+        if (mainLightState == LightState.red && mainLane == laneState.Busy && sideLane == laneState.Empty) {
+            mainLightState = LightState.green;
+            sideLightState = LightState.red;
+            system.getTrafficSensor().setMainLane(laneState.Empty);
+            try {
+                java.lang.Thread.sleep(5000);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(TrafficLight.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            mainLightState = LightState.red;
+            sideLightState = LightState.green;
+
+        } else if (sideLightState == LightState.red && sideLane == laneState.Busy && mainLane == laneState.Empty) {
+            mainLightState = LightState.red;
+            sideLightState = LightState.green;
+            system.getTrafficSensor().setSideLane(laneState.Empty);
+            try {
+                java.lang.Thread.sleep(5000);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(TrafficLight.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            mainLightState = LightState.green;
+            sideLightState = LightState.red;
+
         }
     }
 
@@ -58,10 +100,10 @@ public class TrafficLight implements Runnable {
             } catch (InterruptedException ex) {
                 Logger.getLogger(TrafficLight.class.getName()).log(Level.SEVERE, null, ex);
             }
-              NormalChange();
-              System.out.println("main lane:"+mainLaneState);
-              System.out.println("side lane:"+sideLaneState);
-            //Config.sendEvent(new TrafficLightReading(mainLaneState, sideLaneState));
+            NormalChange();
+            System.out.println("main lane:" + mainLightState);
+            System.out.println("side lane:" + sideLightState);
+            //Config.sendEvent(new TrafficLightReading(mainLightState, sideLightState));
         }
     }
 }
