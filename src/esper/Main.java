@@ -8,6 +8,8 @@ package esper;
 //import model.Kettle;
 import events.TrafficLightReading.LightState;
 import events.TrafficSensorReading.laneState;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import model.TrafficLight;
 import model.TrafficSensor;
 import model.TrafficSystem;
@@ -30,7 +32,7 @@ public class Main {
 
         // Register events
         Config.registerEvents();
-        
+
         final TrafficSystem trafficSystem = new TrafficSystem();
 
         // Create Kettle
@@ -52,8 +54,15 @@ public class Main {
 
                     }
                 });
+        Config.createStatement("select carPlate, now from ViolationReading")
+                .setSubscriber(new Object() {
+                    public void update(String carPlate, LocalDateTime now) {
+                        System.out.println("violator's car plate : " + carPlate);
+                        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+                        System.out.println("time: " + dtf.format(now));
 
-
+                    }
+                });
 
     }
 
