@@ -40,8 +40,12 @@ public class Main {
         Config.createStatement("select mainLane, sideLane from TrafficSensorReading")
                 .setSubscriber(new Object() {
                     public void update(laneState mainLane, laneState sideLane) {
-                        System.out.println("main lane is: " + mainLane);
-                        System.out.println("side lane is: " + sideLane);
+//                        System.out.println("main lane is: " + mainLane);
+//                        System.out.println("side lane is: " + sideLane);
+                        trafficSystem.getTrafficSensor().setMainLane(mainLane);
+                        trafficSystem.getTrafficSensor().setSideLane(sideLane);
+                        trafficSystem.getGui().getMainLaneState().setText(mainLane.toString());
+                        trafficSystem.getGui().getSideLaneState().setText(sideLane.toString());
 
                     }
                 });
@@ -49,8 +53,8 @@ public class Main {
         Config.createStatement("select mainLaneState, sideLaneState from TrafficLightReading")
                 .setSubscriber(new Object() {
                     public void update(LightState mainLaneState, LightState sideLaneState) {
-                        System.out.println("main lane is: " + mainLaneState);
-                        System.out.println("side lane is: " + sideLaneState);
+//                        System.out.println("main lane is: " + mainLaneState);
+//                        System.out.println("side lane is: " + sideLaneState);
 
                     }
 
@@ -62,6 +66,9 @@ public class Main {
                         System.out.println("violator's car plate : " + carPlate);
                         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
                         System.out.println("time: " + dtf.format(now));
+                        
+                        trafficSystem.getGui().getViolationTxt().setText("time: " + dtf.format(now)+" plate num: "+ carPlate);
+                        
 
                     }
                 });

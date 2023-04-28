@@ -38,7 +38,7 @@ public class ViolationSensor implements Runnable {
         while (true) {
 
             try {
-                java.lang.Thread.sleep(12000);
+                java.lang.Thread.sleep(5000);
             } catch (InterruptedException ex) {
                 Logger.getLogger(TrafficSensor.class.getName()).log(Level.SEVERE, null, ex);
             }
