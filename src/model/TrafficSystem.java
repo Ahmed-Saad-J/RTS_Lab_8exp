@@ -18,16 +18,24 @@ public class TrafficSystem {
     private TrafficLight traficLight;
     private TrafficSensor trafficSensor;
     public TrafficSystem() {
-        traficLight = new TrafficLight();
+        traficLight = new TrafficLight(this);
         trafficSensor = new TrafficSensor();
 
         Thread t1 = new Thread(traficLight);
         t1.start();
         
 
-        Thread t2 = new Thread(trafficSensor);
-        t2.start();
+//        Thread t2 = new Thread(trafficSensor);
+//        t2.start();
     }
     
     //LaneLights.put("Main lane", LightState.red);
+
+    public TrafficLight getTraficLight() {
+        return traficLight;
+    }
+
+    public TrafficSensor getTrafficSensor() {
+        return trafficSensor;
+    }
 }
