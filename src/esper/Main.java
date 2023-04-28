@@ -13,6 +13,8 @@ import model.TrafficSensor;
 import model.TrafficSystem;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 /**
  *
@@ -49,6 +51,18 @@ public class Main {
                     public void update(LightState mainLaneState, LightState sideLaneState) {
                         System.out.println("main lane is: " + mainLaneState);
                         System.out.println("side lane is: " + sideLaneState);
+
+                    }
+                    
+                    
+                });
+        
+        Config.createStatement("select carPlate, now from ViolationReading")
+                .setSubscriber(new Object() {
+                    public void update(String carPlate, LocalDateTime now) {
+                        System.out.println("violator's car plate : " + carPlate);
+                        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+                        System.out.println("time: " + dtf.format(now));
 
                     }
                 });

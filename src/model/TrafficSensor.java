@@ -19,6 +19,28 @@ public class TrafficSensor implements Runnable {
     private laneState mainLane;  
     private laneState sideLane;
     
+    
+     public laneState getMainLaneState() {
+        return mainLane;
+    }
+
+    public laneState getSideLaneState() {
+        return sideLane;
+    }
+
+    public void setMainLane(laneState mainLane) {
+        this.mainLane = mainLane;
+    }
+
+    public void setSideLane(laneState sideLane) {
+        this.sideLane = sideLane;
+    }
+
+    public TrafficSensor() {
+        this.mainLane = laneState.Busy;
+        this.sideLane = laneState.Empty;
+    }
+    
     @Override
     public void run() {
     while (true) {
@@ -29,7 +51,7 @@ public class TrafficSensor implements Runnable {
                 Logger.getLogger(TrafficSensor.class.getName()).log(Level.SEVERE, null, ex);
             }
             
-            Config.sendEvent(new TrafficSensorReading(laneState.Busy,laneState.Empty));
+            Config.sendEvent(new TrafficSensorReading(mainLane,sideLane));
         }
     }
 
