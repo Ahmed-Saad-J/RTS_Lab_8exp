@@ -14,53 +14,24 @@ import java.util.logging.Logger;
  *
  * @author Jaden
  */
+
 public class TrafficSensor implements Runnable {
-
-    private laneState mainLane;
+    private laneState mainLane;  
     private laneState sideLane;
-<<<<<<< Updated upstream
     
-=======
-
-    public laneState getMainLaneState() {
-        return mainLane;
-    }
-
-    public laneState getSideLaneState() {
-        return sideLane;
-    }
-
-    public void setMainLane(laneState mainLane) {
-        this.mainLane = mainLane;
-    }
-
-    public void setSideLane(laneState sideLane) {
-        this.sideLane = sideLane;
-    }
-
-    public TrafficSensor() {
-        this.mainLane = laneState.Busy;
-        this.sideLane = laneState.Empty;
-    }
-
->>>>>>> Stashed changes
     @Override
     public void run() {
-        while (true) {
-
+    while (true) {
+            
             try {
                 java.lang.Thread.sleep(1000);
             } catch (InterruptedException ex) {
                 Logger.getLogger(TrafficSensor.class.getName()).log(Level.SEVERE, null, ex);
             }
-<<<<<<< Updated upstream
             
             Config.sendEvent(new TrafficSensorReading(laneState.Busy,laneState.Empty));
-=======
-
-            Config.sendEvent(new TrafficSensorReading(mainLane, sideLane));
->>>>>>> Stashed changes
         }
     }
 
+    
 }
